@@ -20,19 +20,26 @@ mkdir -p ~/.codex/skills
 cp -R adaptive-web-research ~/.codex/skills/
 ```
 
-복사 후 Codex를 재시작하면 됩니다.
+복사 후 Codex를 재시작합니다.
 
 ## GitHub에서 설치
 
-Codex skill 설치 스크립트로 이 저장소의 skill 폴더를 직접 설치할 수 있습니다.
+`skill-installer` 기준으로는 저장소 전체가 아니라 `SKILL.md`가 들어있는 폴더 경로를 지정해 설치합니다. 이 저장소의 설치 대상 경로는 `adaptive-web-research` 입니다.
 
 ```bash
-python3 /Users/hoonsbook/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
   --repo Kminer2053/planned-web-crawling-skill \
   --path adaptive-web-research
 ```
 
-설치 후 Codex를 재시작하면 됩니다.
+또는 GitHub tree URL을 직접 넘겨도 됩니다.
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --url https://github.com/Kminer2053/planned-web-crawling-skill/tree/main/adaptive-web-research
+```
+
+설치 후 Codex를 재시작합니다.
 
 ## 언제 쓰는가
 
