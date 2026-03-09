@@ -1,0 +1,4 @@
+interface:
+  display_name: "Adaptive Web Research"
+  short_description: "AI-guided reusable web collection workflow"
+  default_prompt: "Use $adaptive-web-research to plan and execute a flexible web collection workflow for this source."
