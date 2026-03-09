@@ -1,4 +1,4 @@
 interface:
-  display_name: "Adaptive Web Research"
-  short_description: "AI-guided reusable web collection workflow"
-  default_prompt: "Use $adaptive-web-research to plan and execute a flexible web collection workflow for this source."
+  display_name: "계획형 웹 크롤링"
+  short_description: "AI가 계획하며 진행하는 범용 자료수집 skill"
+  default_prompt: "Use $adaptive-web-research to inspect a source first, then plan and execute a reproducible web collection workflow."
