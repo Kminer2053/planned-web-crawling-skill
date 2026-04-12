@@ -1,0 +1,24 @@
+---
+description: 조사형 웹 크롤링이 필요할 때 adaptive-web-research 툴킷을 사용한다.
+globs:
+alwaysApply: false
+---
+
+# 계획형 웹 크롤링 규칙
+
+웹 자료수집 요청을 받으면 곧바로 대량 요청을 보내지 말고 `.agent-skills/adaptive-web-research` 아래 툴킷을 먼저 사용한다.
+
+## 기본 절차
+
+1. `.agent-skills/adaptive-web-research/SKILL.md`를 읽는다.
+2. `.agent-skills/adaptive-web-research/references/collection-workflow.md`를 읽는다.
+3. 가장 공식적인 시작 URL 또는 파일을 고른다.
+4. `python3 .agent-skills/adaptive-web-research/scripts/crawlkit.py probe ...`로 첫 응답을 분석한다.
+5. 반복 요청이 필요하면 JSON 계획 파일을 만들고 `run_collection_plan.py`로 실행한다.
+
+## 작업 원칙
+
+- 공식 공개 소스를 우선한다.
+- probe 이전에는 구조를 단정하지 않는다.
+- 원본 스냅샷은 `tmp/adaptive-web-research/<task-name>/`에 저장한다.
+- 최종 답변에는 사용한 URL, 요청 방식, 저장 경로를 함께 남긴다.

@@ -41,6 +41,39 @@ python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-githu
 
 설치 후 Codex를 재시작합니다.
 
+## 다른 에이전트에 설치
+
+이 저장소는 Codex 외에도 Claude Code, Cursor, OpenCode, 그리고 AGENTS.md를 읽는 에이전트에 붙일 수 있도록 어댑터를 포함합니다.
+
+공통 설치 스크립트:
+
+```bash
+python3 tools/install_agent_adapter.py --agent <agent> --target /path/to/project
+```
+
+예시:
+
+```bash
+python3 tools/install_agent_adapter.py --agent claude --target /path/to/project
+python3 tools/install_agent_adapter.py --agent cursor --target /path/to/project
+python3 tools/install_agent_adapter.py --agent opencode --target /path/to/project
+python3 tools/install_agent_adapter.py --agent antigravity --target /path/to/project
+```
+
+설치 결과:
+
+- 공통 코어 툴킷: `/path/to/project/.agent-skills/adaptive-web-research`
+- Claude Code: `/path/to/project/.claude/commands/adaptive-web-research.md`
+- Cursor: `/path/to/project/.cursor/rules/adaptive-web-research.mdc`
+- OpenCode: `/path/to/project/.opencode/commands/adaptive-web-research.md`
+- AGENTS 호환 에이전트: `/path/to/project/AGENTS.md`
+
+주의:
+
+- Antigravity는 2026-04-12 기준 공식 프로젝트 로컬 규칙 형식을 확인하지 못해서 `AGENTS.md` 기반 어댑터로 처리했습니다.
+- 이미 `AGENTS.md`가 있는 프로젝트면 `AGENTS.adaptive-web-research.md`로 저장될 수 있으니 수동 병합이 필요합니다.
+- 같은 프로젝트에 여러 어댑터를 설치해도 `.agent-skills/adaptive-web-research` 코어는 재사용됩니다.
+
 ## 언제 쓰는가
 
 - 처음 보는 사이트 구조를 분석하면서 수집 전략을 세워야 할 때
