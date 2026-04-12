@@ -186,3 +186,113 @@ python3 tools/install_agent_adapter.py --agent antigravity --target /path/to/pro
 ```text
 Use $adaptive-web-research to plan a Local100 crawl starting from https://rcda.or.kr/local100/vote/status.do, probe the source structure first, then propose the exact commands and a JSON collection plan.
 ```
+
+## 로컬100 실전 예시
+
+로컬100처럼 공식 페이지, 투표 페이지, 자료집 PDF가 섞여 있을 수 있는 사이트는 아래 순서로 접근하는 것이 안전합니다.
+
+1. 공식 시작점 후보를 먼저 좁힙니다.
+2. `vote/status.do` 같은 현재형 페이지를 `probe`로 확인합니다.
+3. HTML 링크, 폼, 페이지네이션 후보를 보고 실제 데이터 진입점이 목록 페이지인지 POST 응답인지 확인합니다.
+4. PDF 자료집이 따로 있으면 PDF도 별도로 `probe`해서 병행 소스인지 대체 소스인지 판단합니다.
+5. 구조가 확인된 뒤에만 `run_collection_plan.py`용 계획 파일을 만듭니다.
+
+예시 명령:
+
+```bash
+python3 adaptive-web-research/scripts/crawlkit.py probe \
+  "https://rcda.or.kr/local100/vote/status.do" \
+  --output-dir tmp/local100-probe \
+  --save-body
+```
+
+그다음 필요하면 이런 식의 계획 파일로 확장합니다.
+
+```json
+{
+  "name": "local100-vote-pages",
+  "steps": [
+    {
+      "id": "landing",
+      "type": "request",
+      "url": "https://rcda.or.kr/local100/vote/status.do"
+    },
+    {
+      "id": "region-pages",
+      "type": "paginate",
+      "url_template": "https://rcda.or.kr/local100/vote/region_list.do?page={page}",
+      "start_page": 0,
+      "max_pages": 5
+    }
+  ]
+}
+```
+
+실무에서는 이 JSON을 그대로 고정해서 쓰기보다, 먼저 `probe` 결과를 보고 실제 POST 파라미터와 페이지 규칙을 반영해서 조정하는 것이 맞습니다.
+
+## 에이전트별 호출 예시
+
+### Codex
+
+```text
+Use $adaptive-web-research to inspect this public site, probe the source structure first, then propose the exact commands and a JSON collection plan.
+```
+
+### Claude Code
+
+프로젝트에 어댑터를 설치한 뒤:
+
+```text
+/adaptive-web-research 지방자치단체 문화행사 목록 페이지를 조사하고, 먼저 구조를 probe한 뒤 수집 계획을 세워줘
+```
+
+### Cursor
+
+Cursor에서는 project rule이 설치된 상태에서 Agent에게 직접 이렇게 요청하면 됩니다.
+
+```text
+이 사이트는 바로 크롤링하지 말고 먼저 구조를 분석해. 공식 URL부터 고르고 probe 결과를 바탕으로 계획 파일까지 제안해줘.
+```
+
+### OpenCode
+
+프로젝트에 command를 설치한 뒤:
+
+```text
+/adaptive-web-research 공공기관 공모전 목록 페이지를 분석하고 재현 가능한 수집 절차를 만들어줘
+```
+
+### AGENTS.md 기반 에이전트
+
+`AGENTS.md` 또는 `AGENTS.adaptive-web-research.md`가 들어간 프로젝트에서 일반 자연어 요청으로 시작하면 됩니다.
+
+```text
+이 프로젝트에 설치된 adaptive-web-research 툴킷을 사용해서 이 사이트의 자료수집 계획을 세우고, 먼저 probe 명령부터 제안해줘.
+```
+
+## 산출물 예시
+
+이 skill은 보통 아래와 같은 디렉터리 구조로 중간 결과를 남깁니다.
+
+```text
+tmp/
+  adaptive-web-research/
+    local100/
+      probe.json
+      probe.html
+      landing.json
+      landing.html
+      region-pages-page-0.json
+      region-pages-page-0.html
+      plan-result.json
+```
+
+파일 의미:
+
+- `probe.json`: 첫 응답 구조 요약
+- `probe.html`: 첫 응답 원문
+- `landing.json`, `landing.html`: 계획 실행 중 저장한 첫 단계 결과
+- `*-page-*.json`, `*-page-*.html`: 페이지네이션 또는 후속 단계별 스냅샷
+- `plan-result.json`: 전체 계획 실행 요약
+
+이 산출물 구조를 유지하면, 나중에 수집 실패 원인 분석이나 selector 보정, 데이터 검증을 다시 할 때 훨씬 유리합니다.
