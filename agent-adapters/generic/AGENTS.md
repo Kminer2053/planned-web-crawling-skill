@@ -16,10 +16,14 @@
 - 넓게 수집하기 전에 소스 종류가 HTML, JSON, PDF, 폼 POST 중 무엇인지 먼저 판별한다.
 - 원본 스냅샷은 `tmp/adaptive-web-research/<task-name>/`에 저장한다.
 - 최종 결과에는 URL, 요청 방식, 저장 경로를 함께 남긴다.
+- 네이버 블로그는 `.agent-skills/adaptive-web-research/references/naver-blog.md` 를 먼저 읽고, `PostList.naver` 만으로 전체 글 목록을 판단하지 않는다.
+- 네이버 블로그 전체 백업은 `PostViewBottomTitleListAsync.naver` 커서를 따라 복원하거나, 포함된 보조 스크립트를 우선 사용한다.
 
 ## 주요 명령
 
 ```bash
 python3 .agent-skills/adaptive-web-research/scripts/crawlkit.py probe "<url>" --output-dir "tmp/adaptive-web-research/probe" --save-body
 python3 .agent-skills/adaptive-web-research/scripts/run_collection_plan.py "./plan.json" --output-dir "tmp/adaptive-web-research/run"
+python3 .agent-skills/adaptive-web-research/scripts/crawl_naver_blog_backup.py "<blogId>" "tmp/adaptive-web-research/naver-blog"
+python3 .agent-skills/adaptive-web-research/scripts/export_naver_blog_backup.py "tmp/adaptive-web-research/naver-blog"
 ```

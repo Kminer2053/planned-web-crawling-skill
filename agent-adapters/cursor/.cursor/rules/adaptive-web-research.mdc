@@ -22,3 +22,5 @@ alwaysApply: false
 - probe 이전에는 구조를 단정하지 않는다.
 - 원본 스냅샷은 `tmp/adaptive-web-research/<task-name>/`에 저장한다.
 - 최종 답변에는 사용한 URL, 요청 방식, 저장 경로를 함께 남긴다.
+- 네이버 블로그라면 `.agent-skills/adaptive-web-research/references/naver-blog.md` 를 먼저 읽고, `PostList.naver` HTML만으로 전체 글 목록을 판단하지 않는다.
+- 반복적인 네이버 블로그 백업은 `crawl_naver_blog_backup.py` 와 `export_naver_blog_backup.py` 를 우선 사용한다.

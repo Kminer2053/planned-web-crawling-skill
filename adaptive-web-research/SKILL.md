@@ -51,11 +51,16 @@ python3 adaptive-web-research/scripts/run_collection_plan.py ./plan.json --outpu
   - `fetch`: 원본 스냅샷 저장
 - `scripts/run_collection_plan.py`
   - `request`, `paginate`, `follow_links` 단계 실행
+- `scripts/crawl_naver_blog_backup.py`
+  - 네이버 블로그 전체 게시물 백업
+- `scripts/export_naver_blog_backup.py`
+  - 네이버 블로그 백업을 CSV/XLSX로 정리
 
 ## 참고 문서
 
 - 자세한 운영 흐름: `references/collection-workflow.md`
 - 계획 JSON 예시: `references/plan-schema.md`
+- 네이버 블로그 수집 메모: `references/naver-blog.md`
 
 ## 작업 원칙
 
@@ -63,3 +68,10 @@ python3 adaptive-web-research/scripts/run_collection_plan.py ./plan.json --outpu
 - 응답 원본을 저장하지 않은 채 요약만 남기지 말 것
 - 사이트 전용 규칙은 기본 skill에 넣지 말고, 실제 작업 중 필요한 경우 작은 보조 스크립트로 분리할 것
 - 수집 결과에는 사용한 URL, 요청 방식, 저장 경로를 같이 남길 것
+
+## 네이버 블로그 메모
+
+- 네이버 블로그는 `PostList.naver` HTML만 보고 전체 글 목록을 판단하지 말 것
+- “전체글 보기” 목록은 `PostViewBottomTitleListAsync.naver` JSON으로 분리될 수 있다
+- 목록 응답의 `previousIndexLogNo` 와 `nextIndexLogNo` 중 아직 방문하지 않은 커서를 따라 전체 게시물 집합을 복원할 것
+- 반복적으로 같은 작업이 필요하면 `scripts/crawl_naver_blog_backup.py` 와 `scripts/export_naver_blog_backup.py` 를 우선 사용한다

@@ -79,6 +79,23 @@
 
 이 순서는 “일단 긁고 나중에 본다”가 아니라, “먼저 구조를 보고 가장 안전한 경로를 고른다”는 철학에 가깝습니다.
 
+## 네이버 블로그 예외 패턴
+
+네이버 블로그는 이 skill의 범용 흐름을 그대로 적용하되, 목록 복원 방식에 추가 메모가 필요합니다.
+
+- `PostList.naver` 가 전체 게시물 목록을 모두 주지 않을 수 있습니다.
+- 모바일/PC 모두 초기 셸만 주고 실제 목록은 비동기 JSON으로 내려올 수 있습니다.
+- 전체 게시물 백업은 `PostViewBottomTitleListAsync.naver` 의 커서를 따라가며 `logNo` 를 모으는 방식이 더 안정적입니다.
+
+이 저장소에는 이 패턴을 바로 재사용할 수 있도록 보조 스크립트를 포함합니다.
+
+```bash
+python3 adaptive-web-research/scripts/crawl_naver_blog_backup.py <blogId> <output-dir>
+python3 adaptive-web-research/scripts/export_naver_blog_backup.py <backup-dir>
+```
+
+자세한 메모는 `adaptive-web-research/references/naver-blog.md` 에 있습니다.
+
 ## 계획 파일 예시
 
 `run_collection_plan.py`는 아래처럼 간단한 JSON 계획 파일을 실행합니다.

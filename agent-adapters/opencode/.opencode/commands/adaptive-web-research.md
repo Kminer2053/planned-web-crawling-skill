@@ -20,3 +20,4 @@ Workflow:
 3. If the source requires repeated requests, create a JSON plan and run the plan runner.
 4. Save raw snapshots in `tmp/adaptive-web-research/<task-name>/`.
 5. Report the exact commands, URLs, request methods, and saved paths.
+6. If the source is a Naver Blog, read `@.agent-skills/adaptive-web-research/references/naver-blog.md` and prefer the bundled Naver Blog helper scripts or the `PostViewBottomTitleListAsync.naver` archive flow.
